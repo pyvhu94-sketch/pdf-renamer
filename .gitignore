@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 .pdf_renamer.json
+build/
+dist/
+*.spec

@@ -4,21 +4,17 @@ Prosta aplikacja do szybkiego **nazywania i dzielenia skanów PDF**. Widzisz pod
 
 Działa w całości na Twoim komputerze. Pliki nigdzie nie są wysyłane.
 
-## Instalacja (jednorazowo)
+## Pobieranie i uruchamianie (Windows, bez instalacji)
 
-1. Zainstaluj **Pythona** ze strony https://www.python.org/downloads/.
-   W pierwszym oknie instalatora **zaznacz „Add python.exe to PATH”**.
-2. Pobierz aplikację: zielony przycisk **Code → Download ZIP** na górze tej strony, a potem rozpakuj ZIP-a, np. na Pulpit.
+1. Pobierz **[PDF-Renamer.exe](https://github.com/pyvhu94-sketch/pdf-renamer/releases/latest/download/PDF-Renamer.exe)** (najnowsza wersja, ok. 37 MB).
+2. Uruchom go dwuklikiem. Aplikacja otworzy się w przeglądarce (adres http://127.0.0.1:8765).
+3. Aby zakończyć, zamknij czarne okno.
 
-## Uruchamianie
+Nie trzeba instalować Pythona ani niczego innego.
 
-Kliknij dwukrotnie **`start.bat`** w rozpakowanym folderze.
+**Ostrzeżenie Windows:** plik nie ma płatnego podpisu cyfrowego, więc przy pierwszym uruchomieniu Windows może pokazać „System Windows ochronił komputer”. Kliknij wtedy **Więcej informacji → Uruchom mimo to**. Przeglądarka może też zapytać przy pobieraniu, czy zachować plik. Wybierz „Zachowaj”.
 
-- Za pierwszym razem instalują się biblioteki, co trwa około minuty i wymaga internetu.
-- Aplikacja otworzy się w przeglądarce (adres http://127.0.0.1:8765).
-- Aby zakończyć, zamknij czarne okno.
-
-Jeśli Windows pokaże ostrzeżenie „System Windows ochronił komputer”, kliknij **Więcej informacji → Uruchom mimo to**.
+Start trwa kilka sekund, bo exe rozpakowuje się przy każdym uruchomieniu. Jeśli aplikacja już działa, ponowne kliknięcie exe po prostu otworzy ją w przeglądarce.
 
 ## Jak używać
 
@@ -55,12 +51,18 @@ Gdy wszystkie strony skanu zostaną zapisane, oryginał przenosi się do podfold
 
 ## Dla programistów
 
-Ręczne uruchomienie (np. w terminalu VS Code):
+Uruchomienie z kodu źródłowego (wymaga Pythona): dwuklik `start.bat` albo w terminalu VS Code:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\pip install -r requirements.txt
 .\.venv\Scripts\python app.py
+```
+
+Zbudowanie exe: `build.bat` tworzy `dist\PDF-Renamer.exe` (PyInstaller, jeden plik). Nową wersję publikuje się jako GitHub Release:
+
+```powershell
+gh release create v1.x.x dist\PDF-Renamer.exe --title "PDF Renamer 1.x.x" --notes "Co nowego…"
 ```
 
 Całość jest w `app.py`: FastAPI + PyMuPDF po stronie serwera i jedna strona HTML/JS jako interfejs.

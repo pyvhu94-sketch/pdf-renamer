@@ -1,12 +1,14 @@
 """PDF Renamer - lokalna aplikacja do szybkiego nazywania i dzielenia skanów PDF.
 
 Uruchomienie:  python app.py   (otwiera http://127.0.0.1:8765 w przeglądarce)
+Budowanie exe: build.bat        (tworzy dist\PDF-Renamer.exe)
 """
 
 import json
 import os
 import re
 import shutil
+import socket
 import threading
 import webbrowser
 from pathlib import Path
@@ -716,6 +718,17 @@ if (last) { $("folder").value = last; loadFolder(); }
 """
 
 
+def port_in_use() -> bool:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        return s.connect_ex((HOST, PORT)) == 0
+
+
 if __name__ == "__main__":
-    threading.Timer(1.0, lambda: webbrowser.open(f"http://{HOST}:{PORT}")).start()
-    uvicorn.run(app, host=HOST, port=PORT, log_level="info")
+    url = f"http://{HOST}:{PORT}"
+    if port_in_use():
+        # aplikacja już działa (np. drugie kliknięcie w exe) – tylko otwórz przeglądarkę
+        webbrowser.open(url)
+        raise SystemExit
+    print(f"PDF Renamer działa: {url}\nAby zakończyć, zamknij to okno.\n")
+    threading.Timer(1.0, lambda: webbrowser.open(url)).start()
+    uvicorn.run(app, host=HOST, port=PORT, log_level="warning")
